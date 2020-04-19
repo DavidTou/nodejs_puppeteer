@@ -10,8 +10,10 @@ const puppeteer = require('puppeteer-core');
 (async () => {
   	const browser = await puppeteer.launch({defaultViewport: {height: 1080, width: 1920}, headless: true, args: ['--display=:1', '--no-sandbox', '--disable-extensions'], executablePath: '/usr/bin/chromium-browser'});
   	const page = await browser.newPage();
+	page.on('error', err=> {
+		console.log('Error happened at page: ',err);
+	});
   	try{
-
 		await page.goto('https://toucomtech.com/');
   		const title = await page.title();
   		console.log(title);
@@ -20,6 +22,8 @@ const puppeteer = require('puppeteer-core');
 	}
 	catch(err) {
 		console.log(err.message);
-		console.log('ERROR');
+		// EXIT APP
+		process.exitCode = -1;
+		process.exit();
 	}
 })()

@@ -86,14 +86,18 @@ def main():
 				## CALL PUPPET ##
 				print("---- RUNNING PUPPETEER ----")
 				# Will run index.js in /puppeteer
-				subprocess.run(['node','./../'])
+				subprocess.run(['node','.'])
 				## ----------- ##
 				#disconnect from network
 				out = subprocess.run(['nmcli','dev','disconnect','wlan0'])
 				# Get WIFI connection UUID
 				out = subprocess.run(['nmcli','--terse','-f','NAME,TYPE,UUID','conn','show'],stdout=subprocess.PIPE)
 				lines = out.stdout.decode('utf-8').split('\n')
+				#print(lines)
 				for l in lines:
+					# Skip if empty (\n)
+					if(l == ''):
+						break
 					con = l.split(':')
 					if(con[1] == '802-11-wireless'):
 						uuid = con[2]
