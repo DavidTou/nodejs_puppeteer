@@ -15,9 +15,8 @@ const puppeteer = require('puppeteer-core');
 	});
   	try{
 		await page.goto('https://www.google.com/');
-		await pge.evaluate(form => form.submit(),form);
-  		//const title = await page.title();
-  		//console.log(title);
+  		const title = await page.title();
+  		console.log(title);
   		await browser.close();
 		console.log('OK');
 	}
