@@ -10,6 +10,10 @@ import subprocess
 import time
 import sys
 
+# STATUS CODES
+OK = 'OK'
+FAILED = 'FAILED'
+# ------------
 def isOpen(ap):
 	if len(ap)>=2 and ap[2] == '':
 			return True
@@ -86,8 +90,15 @@ def main():
 				## CALL PUPPET ##
 				print("---- RUNNING PUPPETEER ----")
 				# Will run index.js in /puppeteer
-				subprocess.run(['node','.'])
-				## ----------- ##
+				out = subprocess.run(['node','.'])
+				lines = out.stdout.decode('utf-8').split('\n')
+				# return "STATUS:<STATE>"
+				sba_status = lines[0].split(':')[1]
+				print("SBA STATUS [{}]".format(sba_status))
+				## Check SBA Status
+				if (sba_status == OK):
+					# INTERNET ACCESS
+					print("PAYLOAD Sent.")
 				#disconnect from network
 				out = subprocess.run(['nmcli','dev','disconnect','wlan0'])
 				# Get WIFI connection UUID

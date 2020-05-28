@@ -12,9 +12,10 @@ const puppeteer = require('puppeteer-core');
   	const page = await browser.newPage();
   	try{
 		await page.goto('https://www.google.com/');
-  		const title = await page.title();
-  		console.log(title);
-  		await browser.close();
+		const title = await page.title();
+		console.log(title);
+		
+		await browser.close();
 		console.log('OK');
 	}
 	catch(err) {
